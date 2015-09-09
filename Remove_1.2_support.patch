@@ -1,0 +1,513 @@
+diff --git a/docs/mod_nss.html b/docs/mod_nss.html
+index b2fda6c..4bd62c5 100644
+--- a/docs/mod_nss.html
++++ b/docs/mod_nss.html
+@@ -470,8 +470,8 @@ Example</span><br>
+ <br>
+ Enables or disables FIPS 140 mode. This replaces the standard
+ internal PKCS#11 module with a FIPS-enabled one. It also forces the
+-enabled protocols to TLSv1.1 and TLS v1.0 and disables all ciphers but the
+-FIPS ones. You may still select which ciphers you would like
++enabled protocols to TLSv1.2, TLSv1.1 and TLS v1.0 and disables all ciphers
++but the FIPS ones. You may still select which ciphers you would like
+ limited to those that are FIPS-certified. Any non-FIPS that are
+ included in the NSSCipherSuite entry are automatically disabled.
+ The allowable ciphers are:<br>
+@@ -572,7 +572,7 @@ Available ciphers are:<br>
+       </td>
+       <td style="vertical-align: top;">SSL_RSA_WITH_3DES_EDE_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1<br>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2<br>
+       </td>
+     </tr>
+     <tr>
+@@ -580,106 +580,106 @@ Available ciphers are:<br>
+       </td>
+       <td style="vertical-align: top;">SSL_RSA_WITH_DES_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_null_md5<br>
+       </td>
+       <td style="vertical-align: top;">SSL_RSA_WITH_NULL_MD5<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_null_sha<br>
+       </td>
+       <td style="vertical-align: top;">SSL_RSA_WITH_NULL_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_rc2_40_md5</td>
+       <td style="vertical-align: top;">SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_rc4_128_md5</td>
+       <td style="vertical-align: top;">SSL_RSA_WITH_RC4_128_MD5<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_rc4_128_sha</td>
+       <td style="vertical-align: top;">SSL_RSA_WITH_RC4_128_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_rc4_40_md5</td>
+       <td style="vertical-align: top;">SSL_RSA_EXPORT_WITH_RC4_40_MD5<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">fortezza<br>
+       </td>
+       <td style="vertical-align: top;">SSL_FORTEZZA_DMS_WITH_FORTEZZA_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">fortezza_rc4_128_sha<br>
+       </td>
+       <td style="vertical-align: top;">SSL_FORTEZZA_DMS_WITH_RC4_128_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">fortezza_null<br>
+       </td>
+       <td style="vertical-align: top;">SSL_FORTEZZA_DMS_WITH_NULL_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">fips_des_sha<br>
+       </td>
+       <td style="vertical-align: top;">SSL_RSA_FIPS_WITH_DES_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">fips_3des_sha<br>
+       </td>
+       <td style="vertical-align: top;">SSL_RSA_FIPS_WITH_3DES_EDE_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_des_56_sha</td>
+       <td style="vertical-align: top;">TLS_RSA_EXPORT1024_WITH_DES_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_rc4_56_sha</td>
+       <td style="vertical-align: top;">TLS_RSA_EXPORT1024_WITH_RC4_56_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_aes_128_sha<br>
+       </td>
+       <td style="vertical-align: top;">TLS_RSA_WITH_AES_128_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td style="vertical-align: top;">rsa_aes_256_sha<br>
+       </td>
+       <td style="vertical-align: top;">TLS_RSA_WITH_AES_256_CBC_SHA<br>
+       </td>
+-      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1</td>
++      <td style="vertical-align: top;">SSLv3/TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+   </tbody>
+ </table>
+@@ -699,127 +699,127 @@ Additionally there are a number of ECC ciphers:<br>
+     <tr>
+       <td>ecdh_ecdsa_null_sha</td>
+       <td>TLS_ECDH_ECDSA_WITH_NULL_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_ecdsa_rc4_128_sha</td>
+       <td>TLS_ECDH_ECDSA_WITH_RC4_128_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_ecdsa_3des_sha</td>
+       <td>TLS_ECDH_ECDSA_WITH_3DES_EDE_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_ecdsa_aes_128_sha</td>
+       <td>TLS_ECDH_ECDSA_WITH_AES_128_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_ecdsa_aes_256_sha</td>
+       <td>TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_ecdsa_null_sha</td>
+       <td>TLS_ECDHE_ECDSA_WITH_NULL_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_ecdsa_rc4_128_sha</td>
+       <td>TLS_ECDHE_ECDSA_WITH_RC4_128_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_ecdsa_3des_sha</td>
+       <td>TLS_ECDHE_ECDSA_WITH_3DES_EDE_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_ecdsa_aes_128_sha</td>
+       <td>TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_ecdsa_aes_256_sha</td>
+       <td>TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_rsa_null_sha</td>
+       <td>TLS_ECDH_RSA_WITH_NULL_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_rsa_128_sha</td>
+       <td>TLS_ECDH_RSA_WITH_RC4_128_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_rsa_3des_sha</td>
+       <td>TLS_ECDH_RSA_WITH_3DES_EDE_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_rsa_aes_128_sha</td>
+       <td>TLS_ECDH_RSA_WITH_AES_128_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_rsa_aes_256_sha</td>
+       <td>TLS_ECDH_RSA_WITH_AES_256_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>echde_rsa_null</td>
+       <td>TLS_ECDHE_RSA_WITH_NULL_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_rsa_rc4_128_sha</td>
+       <td>TLS_ECDHE_RSA_WITH_RC4_128_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_rsa_3des_sha</td>
+       <td>TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_rsa_aes_128_sha</td>
+       <td>TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdhe_rsa_aes_256_sha</td>
+       <td>TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_anon_null_sha</td>
+       <td>TLS_ECDH_anon_WITH_NULL_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_anon_rc4_128sha</td>
+       <td>TLS_ECDH_anon_WITH_RC4_128_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_anon_3des_sha</td>
+       <td>TLS_ECDH_anon_WITH_3DES_EDE_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_anon_aes_128_sha</td>
+       <td>TLS_ECDH_anon_WITH_AES_128_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+     <tr>
+       <td>ecdh_anon_aes_256_sha</td>
+       <td>TLS_ECDH_anon_WITH_AES_256_CBC_SHA</td>
+-      <td>TLSv1.0/TLSv1.1</td>
++      <td>TLSv1.0/TLSv1.1/TLSv1.2</td>
+     </tr>
+   </tbody>
+ </table>
+@@ -843,15 +843,16 @@ Options are:<br>
+   <li><code>TLSv1 (legacy only; replaced by TLSv1.0)</code></li>
+   <li><code>TLSv1.0</code></li>
+   <li><code>TLSv1.1</code></li>
++  <li><code>TLSv1.2</code></li>
+   <li><code>All</code></li>
+ </ul>
+ Note that this differs from mod_ssl in that you can't add or subtract
+ protocols.<br>
+ <br>
+ If no NSSProtocol is specified, mod_nss will default to allowing the use of
+-the SSLv3, TLSv1.0, and TLSv1.1 protocols, where SSLv3 will be set to be the
+-minimum protocol allowed, and TLSv1.1 will be set to be the maximum protocol
+-allowed.
++the SSLv3, TLSv1.0, TLSv1.1 and TLSv1.2 protocols, where SSLv3 will be set to
++be the minimum protocol allowed, and TLSv1.2 will be set to be the maximum
++protocol allowed.
+ <br>
+ If values for NSSProtocol are specified, mod_nss will set both the minimum
+ and the maximum allowed protocols based upon these entries allowing for the
+@@ -1118,7 +1119,7 @@ was compiled against.<br>
+     <tr>
+       <td style="vertical-align: top; width: 45%;"><code>SSL_PROTOCOL<br>
+       </code></td>
+-      <td style="vertical-align: top;">SSLv2, SSLv3, TLSv1.0, or TLSv1.1<br>
++      <td style="vertical-align: top;">SSLv2, SSLv3, TLSv1.0, TLSv1.1 or TLSv1.2<br>
+       </td>
+     </tr>
+     <tr>
+diff --git a/mod_nss.c b/mod_nss.c
+index 8ccc604..0f74892 100644
+--- a/mod_nss.c
++++ b/mod_nss.c
+@@ -90,7 +90,7 @@ static const command_rec nss_config_cmds[] = {
+                 "(`[+-]XXX,...,[+-]XXX' - see manual)")
+     SSL_CMD_SRV(Protocol, RAW_ARGS,
+                 "Enable the various SSL protocols"
+-                "(`[SSLv2|SSLv3|TLSv1.0|TLSv1.1|all] ...' - see manual)")
++                "(`[SSLv2|SSLv3|TLSv1.0|TLSv1.1|TLSv1.2|all] ...' - see manual)")
+     SSL_CMD_ALL(VerifyClient, TAKE1,
+                 "SSL Client Authentication "
+                 "(`none', `optional', `require'")
+@@ -135,7 +135,7 @@ static const command_rec nss_config_cmds[] = {
+                 "(`on', `off')")
+     SSL_CMD_SRV(ProxyProtocol, RAW_ARGS,
+                "SSL Proxy: enable or disable SSL protocol flavors "
+-               "(`[+-][SSLv2|SSLv3|TLSv1.0|TLSv1.1] ...' - see manual)")
++               "(`[+-][SSLv2|SSLv3|TLSv1.0|TLSv1.1|TLSv1.2] ...' - see manual)")
+     SSL_CMD_SRV(ProxyCipherSuite, TAKE1,
+                "SSL Proxy: colon-delimited list of permitted SSL ciphers "
+                "(`XXX:...:XXX' - see manual)")
+diff --git a/nss.conf.in b/nss.conf.in
+index c941ecf..37d8ee5 100644
+--- a/nss.conf.in
++++ b/nss.conf.in
+@@ -118,7 +118,7 @@ NSSCipherSuite +rsa_rc4_128_md5,+rsa_rc4_128_sha,+rsa_3des_sha,-rsa_des_sha,-rsa
+ #   Since all protocol ranges are completely inclusive, and no protocol in the
+ #   middle of a range may be excluded, the entry "NSSProtocol SSLv3,TLSv1.1"
+ #   is identical to the entry "NSSProtocol SSLv3,TLSv1.0,TLSv1.1".
+-NSSProtocol SSLv3,TLSv1.0,TLSv1.1
++NSSProtocol SSLv3,TLSv1.0,TLSv1.1,TLSv1.2
+ 
+ #   SSL Certificate Nickname:
+ #   The nickname of the RSA server certificate you are going to use.
+diff --git a/nss_engine_init.c b/nss_engine_init.c
+index 32b095a..b5af76a 100644
+--- a/nss_engine_init.c
++++ b/nss_engine_init.c
+@@ -616,13 +616,13 @@ static void nss_init_ctx_protocol(server_rec *s,
+                                   apr_pool_t *ptemp,
+                                   modnss_ctx_t *mctx)
+ {
+-    int ssl2, ssl3, tls, tls1_1;
++    int ssl2, ssl3, tls, tls1_1, tls1_2;
+     char *protocol_marker = NULL;
+     char *lprotocols = NULL;
+     SECStatus stat;
+     SSLVersionRange enabledVersions;
+ 
+-    ssl2 = ssl3 = tls = tls1_1 = 0;
++    ssl2 = ssl3 = tls = tls1_1 = tls1_2 = 0;
+ 
+     /*
+      * Since this routine will be invoked individually for every thread
+@@ -640,24 +640,24 @@ static void nss_init_ctx_protocol(server_rec *s,
+ 
+     if (mctx->sc->fips) {
+         ap_log_error(APLOG_MARK, APLOG_INFO, 0, s,
+-            "In FIPS mode ignoring %s list, enabling TLSv1.0 and TLSv1.1",
++            "In FIPS mode ignoring %s list, enabling TLSv1.0, TLSv1.1 and TLSv1.2",
+             protocol_marker);
+-        tls = tls1_1 = 1;
++        tls = tls1_1 = tls1_2 = 1;
+     } else {
+         if (mctx->auth.protocols == NULL) {
+             ap_log_error(APLOG_MARK, APLOG_WARNING, 0, s,
+-                "%s value not set; using: SSLv3, TLSv1.0, and TLSv1.1",
++                "%s value not set; using: SSLv3, TLSv1.0, TLSv1.1 and TLSv1.2",
+                 protocol_marker);
+-            ssl3 = tls = tls1_1 = 1;
++            ssl3 = tls = tls1_1 = tls1_2 = 1;
+         } else {
+             lprotocols = strdup(mctx->auth.protocols);
+             ap_str_tolower(lprotocols);
+ 
+             if (strstr(lprotocols, "all") != NULL) {
+ #ifdef WANT_SSL2
+-                ssl2 = ssl3 = tls = tls1_1 = 1;
++                ssl2 = ssl3 = tls = tls1_1 = tls1_2 = 1;
+ #else
+-                ssl3 = tls = tls1_1 = 1;
++                ssl3 = tls = tls1_1 = tls1_2 = 1;
+ #endif
+             } else {
+                 char *protocol_list = NULL;
+@@ -702,6 +702,11 @@ static void nss_init_ctx_protocol(server_rec *s,
+                                      "%s:  Enabling TLSv1.1",
+                                      protocol_marker);
+                         tls1_1 = 1;
++                    } else if (strcmp(token, "tlsv1.2") == 0) {
++                        ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                                     "%s:  Enabling TLSv1.2",
++                                     protocol_marker);
++                        tls1_2 = 1;
+                     } else {
+                         ap_log_error(APLOG_MARK, APLOG_WARNING, 0, s,
+                                      "%s:  Unknown protocol '%s' not supported",
+@@ -738,12 +743,12 @@ static void nss_init_ctx_protocol(server_rec *s,
+      * cannot be excluded from this range. NSS will automatically negotiate
+      * to utilize the strongest acceptable protocol for a connection starting
+      * with the maximum specified protocol and downgrading as necessary to the
+-     * minimum specified protocol (TLS 1.1 -> TLS 1.0 -> SSL 3.0).
++     * minimum specified protocol (TLS 1.2 -> TLS 1.1 -> TLS 1.0 -> SSL 3.0).
+      */
+     if (stat == SECSuccess) {
+         /* Set minimum protocol version (lowest -> highest)
+          *
+-         *     SSL 3.0 -> TLS 1.0 -> TLS 1.1
++         *     SSL 3.0 -> TLS 1.0 -> TLS 1.1 -> TLS 1.2
+          */
+         if (ssl3 == 1) {
+             enabledVersions.min = SSL_LIBRARY_VERSION_3_0;
+@@ -760,6 +765,11 @@ static void nss_init_ctx_protocol(server_rec *s,
+             ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
+                          "%s:  [TLS 1.1] (minimum)",
+                          protocol_marker);
++        } else if (tls1_2 == 1) {
++            enabledVersions.min = SSL_LIBRARY_VERSION_TLS_1_2;
++            ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                         "%s:  [TLS 1.2] (minimum)",
++                         protocol_marker);
+         } else {
+             /* Set default minimum protocol version to SSL 3.0 */
+             enabledVersions.min = SSL_LIBRARY_VERSION_3_0;
+@@ -770,9 +780,14 @@ static void nss_init_ctx_protocol(server_rec *s,
+ 
+         /* Set maximum protocol version (highest -> lowest)
+          *
+-         *     TLS 1.1 -> TLS 1.0 -> SSL 3.0
++         *     TLS 1.2 -> TLS 1.1 -> TLS 1.0 -> SSL 3.0
+          */
+-        if (tls1_1 == 1) {
++        if (tls1_2 == 1) {
++            enabledVersions.max = SSL_LIBRARY_VERSION_TLS_1_2;
++            ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
++                         "%s:  [TLS 1.2] (maximum)",
++                         protocol_marker);
++        } else if (tls1_1 == 1) {
+             enabledVersions.max = SSL_LIBRARY_VERSION_TLS_1_1;
+             ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
+                          "%s:  [TLS 1.1] (maximum)",
+@@ -788,10 +803,10 @@ static void nss_init_ctx_protocol(server_rec *s,
+                          "%s:  [SSL 3.0] (maximum)",
+                          protocol_marker);
+         } else {
+-            /* Set default maximum protocol version to TLS 1.1 */
+-            enabledVersions.max = SSL_LIBRARY_VERSION_TLS_1_1;
++            /* Set default maximum protocol version to TLS 1.2 */
++            enabledVersions.max = SSL_LIBRARY_VERSION_TLS_1_2;
+             ap_log_error(APLOG_MARK, APLOG_DEBUG, 0, s,
+-                         "%s:  [TLS 1.1] (default maximum)",
++                         "%s:  [TLS 1.2] (default maximum)",
+                          protocol_marker);
+         }
+ 
+@@ -808,11 +823,7 @@ static void nss_init_ctx_protocol(server_rec *s,
+ 
+     mctx->ssl2 = ssl2;
+     mctx->ssl3 = ssl3;
+-    if (tls1_1 == 1) {
+-        mctx->tls = tls1_1;
+-    } else {
+-        mctx->tls = tls;
+-    }
++    mctx->tls = tls || tls1_1 || tls1_2;
+ }
+ 
+ static void nss_init_ctx_session_cache(server_rec *s,
+diff --git a/nss_engine_vars.c b/nss_engine_vars.c
+index 8ecf43a..d372d8d 100644
+--- a/nss_engine_vars.c
++++ b/nss_engine_vars.c
+@@ -747,6 +747,9 @@ static char *nss_var_lookup_protocol_version(apr_pool_t *p, conn_rec *c)
+                 case SSL_LIBRARY_VERSION_TLS_1_1:
+                     result = "TLSv1.1";
+                     break;
++                case SSL_LIBRARY_VERSION_TLS_1_2:
++                    result = "TLSv1.2";
++                    break;
+             }
+         }
+     }
+

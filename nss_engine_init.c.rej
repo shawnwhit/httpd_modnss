@@ -1,0 +1,62 @@
+--- nss_engine_init.c
++++ nss_engine_init.c
+@@ -616,13 +616,13 @@
+                                   apr_pool_t *ptemp,
+                                   modnss_ctx_t *mctx)
+ {
+-    int ssl2, ssl3, tls, tls1_1, tls1_2;
++    int ssl2, ssl3, tls, tls1_1;
+     char *protocol_marker = NULL;
+     char *lprotocols = NULL;
+     SECStatus stat;
+     SSLVersionRange enabledVersions;
+ 
+-    ssl2 = ssl3 = tls = tls1_1 = tls1_2 = 0;
++    ssl2 = ssl3 = tls = tls1_1 = 0;
+ 
+     /*
+      * Since this routine will be invoked individually for every thread
+@@ -640,24 +640,24 @@
+ 
+     if (mctx->sc->fips) {
+         ap_log_error(APLOG_MARK, APLOG_INFO, 0, s,
+-            "In FIPS mode ignoring %s list, enabling TLSv1.0, TLSv1.1 and TLSv1.2",
++            "In FIPS mode ignoring %s list, enabling TLSv1.0 and TLSv1.1",
+             protocol_marker);
+-        tls = tls1_1 = tls1_2 = 1;
++        tls = tls1_1 = 1;
+     } else {
+         if (mctx->auth.protocols == NULL) {
+             ap_log_error(APLOG_MARK, APLOG_WARNING, 0, s,
+-                "%s value not set; using: SSLv3, TLSv1.0, TLSv1.1 and TLSv1.2",
++                "%s value not set; using: SSLv3, TLSv1.0, and TLSv1.1",
+                 protocol_marker);
+-            ssl3 = tls = tls1_1 = tls1_2 = 1;
++            ssl3 = tls = tls1_1 = 1;
+         } else {
+             lprotocols = strdup(mctx->auth.protocols);
+             ap_str_tolower(lprotocols);
+ 
+             if (strstr(lprotocols, "all") != NULL) {
+ #ifdef WANT_SSL2
+-                ssl2 = ssl3 = tls = tls1_1 = tls1_2 = 1;
++                ssl2 = ssl3 = tls = tls1_1 = 1;
+ #else
+-                ssl3 = tls = tls1_1 = tls1_2 = 1;
++                ssl3 = tls = tls1_1 = 1;
+ #endif
+             } else {
+                 char *protocol_list = NULL;
+@@ -808,7 +793,11 @@
+ 
+     mctx->ssl2 = ssl2;
+     mctx->ssl3 = ssl3;
+-    mctx->tls = tls || tls1_1 || tls1_2;
++    if (tls1_1 == 1) {
++        mctx->tls = tls1_1;
++    } else {
++        mctx->tls = tls;
++    }
+ }
+ 
+ static void nss_init_ctx_session_cache(server_rec *s,

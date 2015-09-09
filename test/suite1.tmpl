@@ -1,0 +1,118 @@
+# Global SSL configuration
+NSSPassPhraseDialog  file:$SERVER_ROOT/conf/password.conf
+
+NSSPassPhraseHelper $SERVER_ROOT/bin/nss_pcache
+
+NSSSessionCacheSize 10000
+NSSSessionCacheTimeout 100
+NSSSession3CacheTimeout 86400
+
+Listen 0.0.0.0:$SERVER_PORT
+Listen 0.0.0.0:8001
+
+LogLevel debug
+
+<VirtualHost $SERVER_NAME:$SERVER_PORT>
+
+NSSEngine on
+NSSFIPS off
+NSSOCSP off
+NSSRenegotiation on
+
+NSSCipherSuite +rsa_rc4_128_md5,+rsa_3des_sha,+rsa_des_sha,+rsa_rc4_40_md5,+rsa_rc2_40_md5,+rsa_null_md5,+rsa_des_56_sha,+rsa_rc4_56_sha,+rsa_aes_128_sha,+rsa_aes_256_sha
+
+NSSProtocol SSLv3,TLSv1.0
+
+NSSNickname Server-Cert
+
+NSSCertificateDatabase $DBPREFIX$SERVER_ROOT/alias
+
+NSSVerifyClient none
+
+NSSUserName SSL_CLIENT_S_DN_UID
+
+<Location "/rc4_cipher">
+    NSSCipherSuite +rsa_rc4_128_md5
+</Location>
+
+<Location "/openssl_rc4_cipher">
+    NSSCipherSuite RC4-SHA
+</Location>
+
+<Location "/openssl_aes_cipher">
+    # In openssl equivalent of AES:-ECDH:-ADH:-PSK:-DH
+    # In NSS equivalent of AES:-ECDH
+    NSSCipherSuite AES+RSA
+</Location>
+
+<Location "/acl/aclS01.html">
+    NSSOptions +StdEnvVars +CompatEnvVars +ExportCertData
+    NSSVerifyClient require
+</Location>
+
+<Location "/acl/aclS02.html">
+    NSSOptions +StdEnvVars +CompatEnvVars +ExportCertData
+    NSSVerifyClient require
+    NSSRequire ( %{SSL_CLIENT_S_DN_UID} eq "alpha" \
+               or %{SSL_CLIENT_S_DN_UID} eq "gamma" ) \
+               and %{SSL_CLIENT_S_DN_O} eq "example.com" \
+               and %{SSL_CLIENT_S_DN_OU} eq "People"
+</Location>
+
+<Location "/acl/aclS03.html">
+    NSSOptions +StdEnvVars +CompatEnvVars +ExportCertData +FakeBasicAuth
+    NSSVerifyClient require
+    AuthType Basic
+    AuthName Cert
+    AuthUserFile conf/htpasswd
+    Require valid-user
+</Location>
+
+<Location "/secret-test.html">
+    NSSRequire %{SSL_CIPHER_USEKEYSIZE} > 40
+</Location>
+
+<Location "/secret-test-impossible.html">
+    NSSRequire %{SSL_CIPHER_USEKEYSIZE} > 4000
+</Location>
+
+<Location "/protocolssl3">
+    NSSRequire %{SSL_PROTOCOL} eq "SSLv3"
+</Location>
+
+<Location "/protocoltls1">
+    NSSRequire %{SSL_PROTOCOL} eq "TLSv1"
+</Location>
+
+<Location "/protocoltls11">
+    NSSRequire %{SSL_PROTOCOL} eq "TLSv1.1"
+</Location>
+
+<Location "/protocoltls12">
+    NSSRequire %{SSL_PROTOCOL} eq "TLSv1.2"
+</Location>
+</VirtualHost>
+
+#
+# For testing protocol handling
+#
+<VirtualHost $SERVER_NAME:8001>
+
+NSSEngine on
+NSSFIPS off
+NSSOCSP off
+NSSRenegotiation on
+
+NSSCipherSuite +rsa_rc4_128_md5,+rsa_3des_sha,+rsa_des_sha,+rsa_rc4_40_md5,+rsa_rc2_40_md5,+rsa_null_md5,+rsa_des_56_sha,+rsa_rc4_56_sha,+rsa_aes_128_sha,+rsa_aes_256_sha
+
+NSSProtocol TLSv1.2
+
+NSSNickname Server-Cert
+
+NSSVerifyClient none
+
+# A bit redundant since the initial handshake should fail if no TLSv1.2
+<Location "/protocoltls12">
+    NSSRequire %{SSL_PROTOCOL} eq "TLSv1.2"
+</Location>
+</VirtualHost>
